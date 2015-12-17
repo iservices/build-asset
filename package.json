@@ -1,0 +1,26 @@
+{
+  "name": "build-asset",
+  "version": "1.0.2",
+  "description": "Build tasks for assets.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "gulp test-with-coverage"
+  },
+  "author": "natewallace@gmail.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iservices/build-asset.git"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "del": "^2.2.0",
+    "gulp": "^3.9.0",
+    "gulp-watch": "^4.3.5",
+    "node-notifier": "^4.4.0",
+    "through2": "^2.0.0"
+  },
+  "devDependencies": {
+    "build-lint": "^1.0.1",
+    "build-test": "^1.0.2"
+  }
+}
