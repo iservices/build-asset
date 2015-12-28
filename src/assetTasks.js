@@ -51,15 +51,31 @@ function notify(err, title, message) {
  * Register tasks for asset processing.
  *
  * @param {object} opts - Configuration options.
- * @param {string} opts.glob - A glob pattern relative to the inputDir identifying the assets to copy.
+ * @param {string|string[]} opts.glob - A glob pattern relative to the inputDir identifying the assets to copy.
  * @param {string} opts.inputDir - The directory to copy assets from.
  * @param {string} opts.outputDir - The output directory to copy assets to.
  * @param {string} [opts.tasksPrefix] - Optional prefix to apply to task names.
  * @returns {function} - Function that registers tasks.
  */
 module.exports = function (opts) {
+  let globParam = null;
+  if (Array.isArray(opts.glob)) {
+    globParam = opts.glob.map(function (value) {
+      if (value[0] === '!') {
+        return '!' + path.normalize(opts.inputDir + '/' + value.slice(1));
+      }
+      return path.normalize(opts.inputDir + '/' + value);
+    });
+  } else {
+    if (opts.glob[0] === '!') {
+      globParam = '!' + path.normalize(opts.inputDir + '/' + opts.glob.slice(1));
+    } else {
+      globParam = path.normalize(opts.inputDir + '/' + opts.glob);
+    }
+  }
+
   const input = {
-    glob: path.normalize(opts.inputDir + '/' + opts.glob),
+    glob: globParam,
     inputDir: opts.inputDir,
     outputDir: opts.outputDir
   };
