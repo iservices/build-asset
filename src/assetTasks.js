@@ -54,6 +54,7 @@ function notify(err, title, message) {
  * @param {string|string[]} opts.glob - A glob pattern relative to the inputDir identifying the assets to copy.
  * @param {string} opts.inputDir - The directory to copy assets from.
  * @param {string} opts.outputDir - The output directory to copy assets to.
+ * @param {string} [opts.version] - Optional version number to append to the output dir.
  * @param {string} [opts.tasksPrefix] - Optional prefix to apply to task names.
  * @returns {function} - Function that registers tasks.
  */
@@ -76,9 +77,14 @@ module.exports = function (opts) {
 
   const input = {
     glob: globParam,
-    inputDir: opts.inputDir,
-    outputDir: opts.outputDir
+    inputDir: path.normalize(opts.inputDir)
   };
+
+  if (opts.version) {
+    input.outputDir = path.normalize(opts.outputDir + '/' + opts.version);
+  } else {
+    input.outputDir = path.normalize(opts.outputDir);
+  }
 
   if (opts.tasksPrefix) {
     input.tasksPrefix = opts.tasksPrefix + '-';
@@ -95,7 +101,7 @@ module.exports = function (opts) {
       .pipe(gulp.dest(input.outputDir));
   });
 
-  /**
+  /*
    * Watch for changes to asset files.
    */
   gulp.task(input.tasksPrefix + 'watch-asset', function () {
