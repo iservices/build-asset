@@ -1,4 +1,4 @@
-# build-asset
+# build-asset (BETA)
 
 ## Overview
 This is a node package that defines gulp tasks that are used to manage assets.
@@ -77,6 +77,12 @@ The directory that files will be copied to.  The folder structure from the optio
 Type: `String`
 
 An optional version number which will be appended to the end of the outputDir.
+
+#### options.name
+
+Type: `String`
+
+Optional name to append to the output dir.  This would appear after the version number.
 
 #### options.tasksPrefix
 

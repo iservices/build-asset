@@ -55,6 +55,7 @@ function notify(err, title, message) {
  * @param {string} opts.inputDir - The directory to copy assets from.
  * @param {string} opts.outputDir - The output directory to copy assets to.
  * @param {string} [opts.version] - Optional version number to append to the output dir.
+ * @param {string} [opts.name] - Optional name to append to the output dir.  This would appear after the version number.
  * @param {string} [opts.tasksPrefix] - Optional prefix to apply to task names.
  * @returns {function} - Function that registers tasks.
  */
@@ -84,6 +85,10 @@ module.exports = function (opts) {
     input.outputDir = path.normalize(opts.outputDir + '/' + opts.version);
   } else {
     input.outputDir = path.normalize(opts.outputDir);
+  }
+
+  if (opts.name) {
+    input.outputDir = path.normalize(input.outputDir + '/' + opts.name);
   }
 
   if (opts.tasksPrefix) {
