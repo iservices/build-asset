@@ -57,6 +57,7 @@ function notify(err, title, message) {
  * @param {string} [opts.version] - Optional version number to append to the output dir.
  * @param {string} [opts.name] - Optional name to append to the output dir.  This would appear after the version number.
  * @param {string} [opts.tasksPrefix] - Optional prefix to apply to task names.
+ * @param {string[]} [opts.tasksDependencies] - Optional array of tasks names that must be completed before these registered tasks runs.
  * @returns {function} - Function that registers tasks.
  */
 module.exports = function (opts) {
@@ -78,7 +79,8 @@ module.exports = function (opts) {
 
   const input = {
     glob: globParam,
-    inputDir: path.normalize(opts.inputDir)
+    inputDir: path.normalize(opts.inputDir),
+    tasksDependencies: opts.tasksDependencies || []
   };
 
   if (opts.version) {
@@ -100,7 +102,7 @@ module.exports = function (opts) {
   /*
    * Copy the asset files.
    */
-  gulp.task(input.tasksPrefix + 'asset', function () {
+  gulp.task(input.tasksPrefix + 'asset', input.tasksDependencies, function () {
     del.sync(input.outputDir);
     return gulp.src(input.glob)
       .pipe(gulp.dest(input.outputDir));

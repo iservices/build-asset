@@ -1,6 +1,6 @@
 {
   "name": "build-asset",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Build tasks for assets.",
   "main": "src/index.js",
   "scripts": {
