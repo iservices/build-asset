@@ -2,7 +2,6 @@
 'use strict';
 
 const gulp = require('gulp');
-const watch = require('gulp-watch');
 const path = require('path');
 const del = require('del');
 const fs = require('fs');
@@ -112,6 +111,7 @@ module.exports = function (opts) {
    * Watch for changes to asset files.
    */
   gulp.task(input.tasksPrefix + 'watch-asset', function () {
+    const watch = require('gulp-watch');
     watch(input.glob, function (file) {
       console.log('watch asset: ' + file.path + ' event: ' + file.event);
       if (file.event === 'unlink') {
