@@ -34,8 +34,10 @@ describe('registerTasks', function () {
     gulp.on('task_stop', function (e) {
       if (e.task === 'watch-watch-asset') {
         setTimeout(function () {
-          const text = fs.readFileSync(__dirname + '/fixtures/watch/chat/log/example.txt', 'utf8');
-          fs.writeFileSync(__dirname + '/fixtures/watch/chat/log/example.txt', text);
+          setTimeout(function () {
+            const text = fs.readFileSync(__dirname + '/fixtures/watch/chat/log/example.txt', 'utf8');
+            fs.writeFileSync(__dirname + '/fixtures/watch/chat/log/example.txt', text);
+          }, 2000);
           setTimeout(function () {
             fs.statSync(__dirname + '/../../testOutput/watch/log/example.txt');
             done();
