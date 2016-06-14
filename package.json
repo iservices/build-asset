@@ -1,10 +1,15 @@
 {
   "name": "build-asset",
-  "version": "1.0.9",
-  "description": "Build tasks for assets.",
+  "version": "2.0.0",
+  "description": "Asset management command line tool.",
   "main": "src/index.js",
+  "bin": "src/index.js",
+  "files": [
+    "src/"
+  ],
   "scripts": {
-    "test": "gulp test-with-coverage"
+    "lint": "build-lint -g \"src/**/*.js\"",
+    "lint-watch": "build-lint -g \"src/**/*.js\" -w"
   },
   "author": "natewallace@gmail.com",
   "repository": {
@@ -13,14 +18,12 @@
   },
   "license": "UNLICENSED",
   "dependencies": {
+    "chokidar": "^1.5.2",
+    "copy": "^0.2.0",
     "del": "^2.2.0",
-    "gulp": "^3.9.0",
-    "gulp-watch": "^4.3.5",
-    "node-notifier": "^4.4.0",
-    "through2": "^2.0.0"
+    "minimist": "^1.2.0"
   },
   "devDependencies": {
-    "build-lint": "^1.0.1",
-    "build-test": "^1.0.2"
+    "build-lint": "^2.0.2"
   }
 }
