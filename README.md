@@ -19,8 +19,8 @@ do this within an npm script element.  Take the following excerpt from an exampl
 ```JSON
 {
   "scripts": {
-    "asset": "build-asset -g \"src/public/**/*\" -i src/public -o dist -v 1.0.0 -n public",
-    "asset-watch": "build-asset -g \"src/public/**/*\" -i src/public -o dist -v 1.0.0 -n public -w",
+    "asset": "build-asset \"src/public/**/*\" -i src/public -o dist -v 1.0.0 -n public",
+    "asset-watch": "build-asset \"src/public/**/*\" -i src/public -o dist -v 1.0.0 -n public -w",
   }
 }
 ```
@@ -35,14 +35,14 @@ the glob patterns into actual file paths.
 
 Usage:
 ```
-build-asset -g <glob pattern> [-g <glob pattern>] -o <output directory> [-i <base input directory>]
+build-asset <files> [<files>] -o <output directory> [-i <base input directory>]
             [-v <version>] [-n <name>] [-w]
 ```
 Options:
 
 | Option | Description |
 | ---    | ---         |
-| -g     | A glob pattern that identifies files to copy.  Multiple glob patterns can be specified. |
+| `<files>` | A glob pattern that identifies files to copy.  Multiple glob patterns can be specified. |
 | -i     | The base directory used when creating folder paths in the output directory.  Defaults to the current working directory. |
 | -n     | A name to include in the output path |
 | -o     | The directory to copy files to. |

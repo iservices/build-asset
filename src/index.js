@@ -36,7 +36,7 @@ function formatTarget(args) {
 function copy(args) {
   const base = args.i ? path.resolve(args.i) : process.cwd();
   const target = formatTarget(args);
-  cpy(args.g, target, { srcBase: base }, err => {
+  cpy(args._, target, { srcBase: base }, err => {
     if (err) {
       console.error(err);
       process.exitCode = 1;
@@ -52,25 +52,27 @@ function copy(args) {
  * @return {void}
  */
 function copyWatch(args) {
-  const watcher = chokidar.watch(args.g, {
-    ignored: /[\/\\]\./,
-    persistent: true
-  });
-  watcher.on('ready', () => {
-    watcher.on('add', file => { copy([file], args); });
-    watcher.on('change', file => { copy([file], args); });
-  });
+  if (args._.length) {
+    const watcher = chokidar.watch(args._, {
+      ignored: /[\/\\]\./,
+      persistent: true
+    });
+    watcher.on('ready', () => {
+      watcher.on('add', file => { copy([file], args); });
+      watcher.on('change', file => { copy([file], args); });
+    });
+  }
 }
 
-if (!argsv.g || !argsv.o) {
+if (!argsv._.length || !argsv.o) {
   //
   // print help info if args are missing
   //
-  console.log('Usage: build-asset -g <glob pattern> [-g <glob pattern>] -o <output directory> [-i <base input directory>]');
+  console.log('Usage: build-asset <files> [<files>] -o <output directory> [-i <base input directory>]');
   console.log('                   [-v <version>] [-n <name>] [-w]');
   console.log('');
   console.log('Options:');
-  console.log('-g\t A glob pattern that identifies files to copy.  Multiple glob patterns can be specified.');
+  console.log('<files>\t A glob pattern that identifies files to copy.  Multiple glob patterns can be specified.');
   console.log('-i\t The base directory used when creating folder paths in the output directory.  Defaults to the current working directory.');
   console.log('-n\t A name to include in the output path');
   console.log('-o\t The directory to copy files to.');
