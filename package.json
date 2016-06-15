@@ -9,8 +9,7 @@
   ],
   "scripts": {
     "lint": "build-lint -g \"src/**/*.js\"",
-    "lint-watch": "build-lint -g \"src/**/*.js\" -w",
-    "test": "node ."
+    "lint-watch": "build-lint -g \"src/**/*.js\" -w"
   },
   "author": "natewallace@gmail.com",
   "repository": {
