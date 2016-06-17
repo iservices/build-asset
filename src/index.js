@@ -27,16 +27,38 @@ function formatTarget(args) {
 }
 
 /**
+ * Determine the output file for the given input file and arguments.
+ *
+ * @param {String} file - The file to determine the output file for.
+ * @param {Object} args - The arguments provided from the command line.
+ * @return {String} The output file for the input file.
+ */
+function getOutputFile(file, args) {
+  const filePath = path.isAbsolute(file) ? file : path.join(process.cwd(), file);
+
+  let root = args.i || process.cwd();
+  if (!path.isAbsolute(root)) {
+    root = path.join(process.cwd(), root);
+  }
+  let outDir = formatTarget(args);
+  if (!path.isAbsolute(outDir)) {
+    outDir = path.join(process.cwd(), outDir);
+  }
+  return path.join(outDir, filePath.slice(root.length));
+}
+
+/**
  * Perform the copies.
  *
  * @ignore
+ * @param {String[]} files - The file paths or glob patterns identifying the files to copy.
  * @param {Object} args - The arguments passed into the command line.
  * @return {void}
  */
-function copy(args) {
+function copy(files, args) {
   const base = args.i ? path.resolve(args.i) : process.cwd();
   const target = formatTarget(args);
-  cpy(args._, target, { srcBase: base }, err => {
+  cpy(files, target, { srcBase: base }, err => {
     if (err) {
       console.error(err);
       process.exitCode = 1;
@@ -60,6 +82,9 @@ function copyWatch(args) {
     watcher.on('ready', () => {
       watcher.on('add', file => { copy([file], args); });
       watcher.on('change', file => { copy([file], args); });
+      watcher.on('unlink', file => {
+        del(getOutputFile(file, args));
+      });
     });
   }
 }
@@ -80,6 +105,11 @@ if (!argsv._.length || !argsv.o) {
   console.log('-v\t A version number to include in the output path.');
   console.log('-w\t When present the files specified in the glob pattern(s) will be watched for changes and copied when they do change.');
   process.exitCode = 1;
+} else if (argsv.w) {
+  //
+  // watch for changes
+  //
+  copyWatch(argsv);
 } else {
   //
   // copy files specified and optional begin watch
@@ -87,8 +117,5 @@ if (!argsv._.length || !argsv.o) {
   if (!argsv.k) {
     del.sync(formatTarget(argsv));
   }
-  copy(argsv);
-  if (argsv.w) {
-    copyWatch(argsv);
-  }
+  copy(argsv._, argsv);
 }
