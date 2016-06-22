@@ -1,6 +1,6 @@
 {
   "name": "build-asset",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Asset management command line tool.",
   "main": "src/index.js",
   "bin": "src/index.js",
