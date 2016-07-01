@@ -36,7 +36,7 @@ the glob patterns into actual file paths.
 Usage:
 ```
 build-asset <files> [<files>] -o <output directory> [-i <base input directory>]
-            [-v <version>] [-n <name>] [-w] [-k]
+            [-m [<package.json]] [-v <version>] [-n <name>] [-w] [-k]
 ```
 Options:
 
@@ -45,6 +45,7 @@ Options:
 | `<files>` | A glob pattern that identifies files to copy.  Multiple glob patterns can be specified. |
 | -i     | The base directory used when creating folder paths in the output directory.  Defaults to the current working directory. |
 | -k     | When this option is specified the output folder will not be deleted before files are emitted. |
+| -m     | Read in the version number from a package.json file.  If a file isn't specified the package.json in the cwd will be used. |
 | -n     | A name to include in the output path |
 | -o     | The directory to copy files to. |
 | -v     | A version number to include in the output path. |
